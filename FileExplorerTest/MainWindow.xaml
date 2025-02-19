@@ -1,0 +1,47 @@
+﻿<Window x:Class="FileExplorerTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileExplorerTest" 
+        xmlns:viewmodels="clr-namespace:FileExplorerTest.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <!-- Ustawiamy DataContext na nasz ViewModel -->
+        <viewmodels:FilesListViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <ListBox ItemsSource="{Binding Files}" 
+                 SelectedItem="{Binding SelectedFile, Mode=TwoWay}">
+            <!-- Styl dla elementu ListBoxItem -->
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <!-- Gdy element jest zaznaczony, ustawiamy inny kolor tła -->
+                            <Setter Property="Background" Value="Green"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <!-- Szablon prezentacji elementu -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <!-- Wyświetlamy obrazek, którego źródło to właściwość Path -->
+                        <Path Width="48" Height="48" Fill="LightGray" Stroke="DarkGray" StrokeThickness="1"
+                               Data="M4,2 H32 L40,10 V40 H4 Z M32,2 V10 H40" />
+                        <TextBlock Text="{Binding FileName}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+
+
+</Window>
